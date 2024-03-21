@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import Word from '../models/word.ts'
+import WordList from '../models/wordlist.ts'
 
 export const useGameStore = defineStore('game', {
     state: () => ({
-        secretWord: "GREAT",
-        currentWord: 0,
+        secretWord: ref("" as string),
+        currentWord: ref(0),
         words: ref([
             new Word(5),
             new Word(5),
@@ -14,14 +15,19 @@ export const useGameStore = defineStore('game', {
             new Word(5),
             new Word(5),
         ]),
-        gameIsWon: false
+        gameIsWon: ref(false),
+        wordList: new WordList()
     }),
     actions: {
         submitGuess() {
-            let result = this.words[this.currentWord].submitGuess(this.secretWord);
-            this.currentWord++;
+            if(this.words[this.currentWord].allLettersFilled()) {
+                let result = this.words[this.currentWord].submitGuess(this.secretWord);
+                this.currentWord++;
+    
+                return result;
+            }
 
-            return result;
+            return false;
         },
 
         keydown(event : any) {
@@ -38,6 +44,22 @@ export const useGameStore = defineStore('game', {
             else if(event.key === 'Enter') {
                 this.gameIsWon = this.submitGuess();
             }
+        },
+
+        resetGame() {
+            this.words = [
+                new Word(5),
+                new Word(5),
+                new Word(5),
+                new Word(5),
+                new Word(5),
+                new Word(5),
+            ];
+
+            this.currentWord = 0;
+            this.gameIsWon = false;
+
+            this.secretWord = this.wordList.getRandomWord();
         }
     }
 })

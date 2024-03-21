@@ -10,12 +10,24 @@ export default class Word {
     letters : Letter[] = [];
     currentLetter = 0;
 
+    allLettersFilled() : boolean {
+        let allFilled = true;
+
+        for(let i = 0; i < this.letters.length; i++) {
+            if(this.letters[i].letter === '') {
+                allFilled = false;
+            }
+        }
+
+        return allFilled;
+    }
+
     submitGuess(secretWord : string) {
-        let secretWordArray = secretWord.split('');
+        let secretWordArray = secretWord.split('').filter(char => char.trim() !== '').slice(0, -1);
 
         let success = true;
 
-        for(let i = 0; i < secretWordArray.length; i++) {
+        for(let i = 0; i < this.letters.length; i++) {
             if(secretWordArray[i] === this.letters[i].letter) {
                 this.letters[i].setCorrect();
             }
