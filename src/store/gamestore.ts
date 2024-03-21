@@ -19,18 +19,41 @@ export const useGameStore = defineStore('game', {
         wordList: new WordList()
     }),
     actions: {
-        submitGuess() {
+        async submitGuess() {
             if(this.words[this.currentWord].allLettersFilled()) {
-                let result = this.words[this.currentWord].submitGuess(this.secretWord);
-                this.currentWord++;
-    
-                return result;
+                let guessIsRealWord = await this.guessIsRealWord();
+
+                if(guessIsRealWord) {
+                    let result = this.words[this.currentWord].submitGuess(this.secretWord);
+                    this.currentWord++;
+        
+                    return result;
+                }
+                else {
+                    this.words[this.currentWord].clearWord();
+                }
             }
 
             return false;
         },
 
-        keydown(event : any) {
+        async guessIsRealWord() : Promise<boolean> {
+            let word = this.words[this.currentWord].getWord();
+
+            let url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + word;
+
+            let isReal = false;
+
+            await fetch(url).then(response => {
+                if(response.status === 200) {
+                    isReal = true;
+                }
+            });
+
+            return isReal;
+        },
+
+        async keydown(event : any) {
             if(this.gameIsWon) {
                 return;
             }
@@ -42,7 +65,7 @@ export const useGameStore = defineStore('game', {
                 this.words[this.currentWord].backspace();
             }
             else if(event.key === 'Enter') {
-                this.gameIsWon = this.submitGuess();
+                this.gameIsWon = await this.submitGuess();
             }
         },
 

@@ -5,8 +5,8 @@
 
   const store = useGameStore();
 
-  document.addEventListener('keydown', function(event) {
-    store.keydown(event);
+  document.addEventListener('keydown', async function(event) {
+    await store.keydown(event);
   });
 </script>
 

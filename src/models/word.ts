@@ -22,6 +22,24 @@ export default class Word {
         return allFilled;
     }
 
+    getWord() {
+        let word = '';
+
+        for(let i = 0; i < this.letters.length; i++) {
+            word += this.letters[i].letter;
+        }
+
+        return word;
+    }
+
+    clearWord() {
+        for(let i = 0; i < this.letters.length; i++) {
+            this.letters[i].letter = '';
+        }
+
+        this.currentLetter = 0;
+    }
+
     submitGuess(secretWord : string) {
         let secretWordArray = secretWord.split('').filter(char => char.trim() !== '').slice(0, -1);
 
