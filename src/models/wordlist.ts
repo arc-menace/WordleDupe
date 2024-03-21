@@ -2160,8 +2160,6 @@ export default class WordList {
         let randomWord = this.words[randomIndex];
         this.words.splice(randomIndex, 1);
 
-        console.log(randomWord);
-
         return randomWord;
     }
 }
