@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { POSITION, useToast } from "vue-toastification";
+import { TYPE as ToastType } from "vue-toastification";
+
 import Word from '../models/word.ts'
 import WordList from '../models/wordlist.ts'
+
+const toast = useToast();
 
 export const useGameStore = defineStore('game', {
     state: () => ({
@@ -16,18 +21,33 @@ export const useGameStore = defineStore('game', {
             new Word(5),
         ]),
         gameIsWon: ref(false),
+        gameIsLost: ref(false),
         wordList: new WordList()
     }),
     actions: {
         async submitGuess() {
             if(this.words[this.currentWord].allLettersFilled()) {
-                let guessIsRealWord = await this.guessIsRealWord();
+                let alreadyGuessed = this.alreadyGuessedWord()
 
-                if(guessIsRealWord) {
+                let guessIsRealWord = true;
+                if(!alreadyGuessed) {
+                    guessIsRealWord = await this.guessIsRealWord();
+                }
+                
+
+                if(!alreadyGuessed && guessIsRealWord) {
                     let result = this.words[this.currentWord].submitGuess(this.secretWord);
                     this.currentWord++;
         
-                    return result;
+                    if(result) {
+                        this.gameIsWon = true;
+                        this.showToast("You Win!", 5000, ToastType.SUCCESS);
+                    }
+
+                    if(!this.gameIsWon && this.currentWord >= this.words.length) {
+                        this.gameIsLost = true;
+                        this.showToast(this.secretWord, 5000, ToastType.ERROR);
+                    }
                 }
                 else {
                     this.words[this.currentWord].clearWord();
@@ -35,6 +55,20 @@ export const useGameStore = defineStore('game', {
             }
 
             return false;
+        },
+
+        alreadyGuessedWord() {
+            let alreadyGuessed = false;
+
+            for(let i = 0; i < this.currentWord; i++) {
+                if(this.words[i].getWord() === this.words[this.currentWord].getWord()) {
+                    alreadyGuessed = true;
+                    this.showToast("Already guessed word", 3000, ToastType.WARNING);
+                    break;
+                }
+            }
+
+            return alreadyGuessed;
         },
 
         async guessIsRealWord() : Promise<boolean> {
@@ -48,13 +82,17 @@ export const useGameStore = defineStore('game', {
                 if(response.status === 200) {
                     isReal = true;
                 }
+                else {
+                    console.log("received expected 404 error. word: " + this.words[this.currentWord].getWord() + " not in dictionary");
+                    this.showToast("Not a word", 3000, ToastType.WARNING);
+                }
             });
 
             return isReal;
         },
 
         async keydown(event : any) {
-            if(this.gameIsWon) {
+            if(this.gameIsWon || this.gameIsLost) {
                 return;
             }
 
@@ -65,7 +103,7 @@ export const useGameStore = defineStore('game', {
                 this.words[this.currentWord].backspace();
             }
             else if(event.key === 'Enter') {
-                this.gameIsWon = await this.submitGuess();
+                await this.submitGuess();
             }
         },
 
@@ -81,8 +119,25 @@ export const useGameStore = defineStore('game', {
 
             this.currentWord = 0;
             this.gameIsWon = false;
+            this.gameIsLost = false;
 
             this.secretWord = this.wordList.getRandomWord();
+        },
+
+        showToast(message : string, timeout : number, type : ToastType = ToastType.DEFAULT) {
+            toast(message, {
+                type: type,
+                position: POSITION.TOP_CENTER,
+                timeout: timeout,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: false,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                icon: false,
+                toastClassName: 'wordle-dupe-toast',
+                bodyClassName: 'wordle-dupe-toast-body'
+            });
         }
     }
 })

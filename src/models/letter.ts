@@ -7,14 +7,14 @@ export default class Letter {
     }
 
     setIncorrect() {
-        this.color = "red";
+        this.color = "var(--error)";
     }
 
     setCorrectWrongLocation() {
-        this.color = "#b59f3b";
+        this.color = "var(--warning)";
     }
 
     setCorrect() {
-        this.color = "#538d4e";
+        this.color = "var(--success)";
     }
 }

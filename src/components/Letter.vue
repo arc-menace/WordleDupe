@@ -4,13 +4,15 @@
     const props = defineProps({
         letter : Letter
     })
+
+
 </script>
 
 <style scoped>
      .letter-color {
         color: white;
-        height: 75px;
-        width: 75px;
+        height: 60px;
+        width: 60px;
         border: 1px solid white;
         display: flex;
         justify-content: center;
