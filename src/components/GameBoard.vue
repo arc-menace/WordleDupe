@@ -5,6 +5,12 @@
     const store = useGameStore();
 </script>
 
+<style>
+    .gameboard {
+        margin: 0 auto;
+    }
+</style>
+
 <template>
     <Word :word="store.words[0]" />
     <Word :word="store.words[1]" />

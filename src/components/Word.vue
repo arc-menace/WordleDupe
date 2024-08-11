@@ -7,6 +7,7 @@
     .word {
         display: flex;
         flex-direction: row;
+        justify-content: center;
     }
 </style>
 

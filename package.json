@@ -11,9 +11,11 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@vueuse/core": "^10.11.1",
     "pinia": "^2.1.7",
     "uuid": "^9.0.1",
     "vue": "^3.4.21",
+    "vue-mobile-detection": "^2.0.1",
     "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
@@ -21,6 +23,6 @@
     "gh-pages": "^6.1.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.6",
-    "vue-tsc": "^1.8.27"
+    "vue-tsc": "^2.0.29"
   }
 }

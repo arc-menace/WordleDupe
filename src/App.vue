@@ -1,53 +1,89 @@
 <script setup lang="ts">
   import GameBoard from './components/GameBoard.vue'
+  import ResetButton from './components/ResetButton.vue'
+  import ThemeToggleButton from './components/ThemeToggleButton.vue'
 
   import { useGameStore } from './store/gamestore.ts';
+  import { useDark } from "@vueuse/core";
 
   const store = useGameStore();
   
-  store.resetGame();
+  useDark({
+    attribute: "theme",
+    valueDark: "dark",
+    valueLight: "light"
+  });
 
-  console.log("what are you looking in here for? don't be nosy")
+  store.resetGame();
 
   document.addEventListener('keydown', async function(event) {
       await store.keydown(event);
   });
 
-  function preventButtonClick(e : any) {
-      if(e.key === 'Enter') {
-          e.preventDefault();
-          return false;
-      }
-  }
+  
 </script>
 
 <style>
-    .reset-button {
-        margin-top: 1rem;
-        width: 100%;
-    }
+    
 
+    [theme='light']
     .Vue-Toastification__toast--success.wordle-dupe-toast {
       background-color: var(--success) !important;
     }
 
+    [theme='light']
     .Vue-Toastification__toast--warning.wordle-dupe-toast {
       background-color: var(--warning) !important;
     }
 
+    [theme='light']
     .Vue-Toastification__toast--error.wordle-dupe-toast {
       background-color: var(--error) !important;
     }
 
-    :root {
+    [theme='dark']
+    .Vue-Toastification__toast--success.wordle-dupe-toast {
+      background-color: var(--success-dark) !important;
+    }
+
+    [theme='dark']
+    .Vue-Toastification__toast--warning.wordle-dupe-toast {
+      background-color: var(--warning-dark) !important;
+    }
+
+    [theme='dark']
+    .Vue-Toastification__toast--error.wordle-dupe-toast {
+      background-color: var(--error-dark) !important;
+    }
+
+    [theme='dark'] {
+      background-color: #242424;
+      color: white;
+
       --success: #538d4e;
       --warning: #b59f3b;
       --error: red;
     }
+
+    .toolbar {
+      display: flex;
+      justify-content: end;
+    }
+
+    .game-area {
+      margin: 0 auto;
+      text-align: center;
+      max-width: 1280px;
+    }
 </style>
 
 <template>
-  <h1>Wordle Dupe</h1>
-  <GameBoard />
-  <button @click="store.resetGame()" @keydown="e => preventButtonClick(e)" class="reset-button">Reset Game</button>
+  <div class="toolbar">
+    <ResetButton />
+    <ThemeToggleButton />
+  </div>
+  <div class="game-area">
+    <h1>Wordle Dupe</h1>
+    <GameBoard />
+  </div>
 </template>
