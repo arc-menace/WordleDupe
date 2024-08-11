@@ -28,6 +28,23 @@
     .key {
         border: 1px solid var(--main-text-dark);
     }
+
+    [theme='dark']
+    .key:hover {
+        background-color: var(--main-text-dark);
+        color: var(--main-bg-dark);
+    }
+
+    [theme='light']
+    .key {
+        border: 1px solid var(--main-text);
+    }
+
+    [theme='light']
+    .key:hover {
+        background-color: var(--main-text);
+        color: var(--main-bg);
+    }
 </style>
 
 <template>
