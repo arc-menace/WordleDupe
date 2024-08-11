@@ -23,7 +23,9 @@
         border: none;
         margin-top: 1rem;
         margin-right: 0.5rem;
-        border-radius: 100%;
+        border-radius: 1rem;
+        height: 2rem;
+        width: 2rem;
     }
 
     [theme='light']

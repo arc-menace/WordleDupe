@@ -18,7 +18,9 @@
         margin-right: 1rem;
         background-color: var(--main-bg);
         color: var(--main-text);
-        border-radius: 100%;
+        border-radius: 1rem;
+        height: 2rem;
+        width: 2rem;
     }
 
     .to-dark-button:hover {
@@ -33,7 +35,9 @@
         margin-right: 1rem;
         background-color: var(--main-bg-dark);
         color: var(--main-text-dark);
-        border-radius: 100%;
+        border-radius: 1rem;
+        height: 2rem;
+        width: 2rem;
     }
 
     .to-light-button:hover {
