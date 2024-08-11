@@ -56,6 +56,10 @@
       text-align: center;
       max-width: 1280px;
     }
+
+    .page-title {
+      margin-top: 1rem;
+    }
 </style>
 
 <template>
@@ -64,7 +68,7 @@
     <ThemeToggleButton />
   </div>
   <div class="game-area">
-    <h1>Wordle Dupe</h1>
+    <h1 class="page-title">Wordle Dupe</h1>
     <h4>Just type to input and press 'Enter' to submit, or use the onscreen keyboard</h4>
     <GameBoard />
     <Keyboard />

@@ -13,7 +13,7 @@
 <style>
     .to-dark-button {
         border: none;
-        margin-top: 1rem;
+        margin-top: 0rem;
         margin-left: 0.5rem;
         margin-right: 1rem;
         background-color: var(--main-bg);
@@ -30,7 +30,7 @@
 
     .to-light-button {
         border: none;
-        margin-top: 1rem;
+        margin-top: 0rem;
         margin-left: 0.5rem;
         margin-right: 1rem;
         background-color: var(--main-bg-dark);

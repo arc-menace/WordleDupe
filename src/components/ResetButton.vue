@@ -21,7 +21,7 @@
 <style>
     .reset-button {
         border: none;
-        margin-top: 1rem;
+        margin-top: 0rem;
         margin-right: 0.5rem;
         border-radius: 1rem;
         height: 2rem;
