@@ -49,6 +49,7 @@
     .toolbar {
       display: flex;
       justify-content: end;
+      margin-top: 0.5rem;
     }
 
     .game-area {
