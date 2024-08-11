@@ -65,6 +65,7 @@
   </div>
   <div class="game-area">
     <h1>Wordle Dupe</h1>
+    <h4>Just type to input and press 'Enter' to submit, or use the onscreen keyboard</h4>
     <GameBoard />
     <Keyboard />
   </div>
