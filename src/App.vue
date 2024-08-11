@@ -2,6 +2,7 @@
   import GameBoard from './components/GameBoard.vue'
   import ResetButton from './components/ResetButton.vue'
   import ThemeToggleButton from './components/ThemeToggleButton.vue'
+  import Keyboard from './components/Keyboard.vue'
 
   import { useGameStore } from './store/gamestore.ts';
   import { useDark } from "@vueuse/core";
@@ -24,36 +25,16 @@
 </script>
 
 <style>
-    
-
-    [theme='light']
     .Vue-Toastification__toast--success.wordle-dupe-toast {
       background-color: var(--success) !important;
     }
 
-    [theme='light']
     .Vue-Toastification__toast--warning.wordle-dupe-toast {
       background-color: var(--warning) !important;
     }
 
-    [theme='light']
     .Vue-Toastification__toast--error.wordle-dupe-toast {
       background-color: var(--error) !important;
-    }
-
-    [theme='dark']
-    .Vue-Toastification__toast--success.wordle-dupe-toast {
-      background-color: var(--success-dark) !important;
-    }
-
-    [theme='dark']
-    .Vue-Toastification__toast--warning.wordle-dupe-toast {
-      background-color: var(--warning-dark) !important;
-    }
-
-    [theme='dark']
-    .Vue-Toastification__toast--error.wordle-dupe-toast {
-      background-color: var(--error-dark) !important;
     }
 
     [theme='dark'] {
@@ -85,5 +66,6 @@
   <div class="game-area">
     <h1>Wordle Dupe</h1>
     <GameBoard />
+    <Keyboard />
   </div>
 </template>

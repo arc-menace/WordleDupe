@@ -22,7 +22,8 @@ export const useGameStore = defineStore('game', {
         ]),
         gameIsWon: ref(false),
         gameIsLost: ref(false),
-        wordList: new WordList()
+        wordList: new WordList(),
+        guessedIncorrectLetters: ref(new Map<string, string>())
     }),
     actions: {
         async submitGuess() {
@@ -107,6 +108,22 @@ export const useGameStore = defineStore('game', {
             }
         },
 
+        async pressKeyboardKey(keyValue : string) {
+            if(this.gameIsWon || this.gameIsLost) {
+                return;
+            }
+
+            if(/^[a-zA-Z]$/.test(keyValue)) {
+                this.words[this.currentWord].inputLetter(keyValue);
+            }
+            else if(keyValue === 'Back') {
+                this.words[this.currentWord].backspace();
+            }
+            else if(keyValue === 'Enter') {
+                await this.submitGuess();
+            }
+        },
+
         resetGame() {
             this.words = [
                 new Word(5),
@@ -121,7 +138,11 @@ export const useGameStore = defineStore('game', {
             this.gameIsWon = false;
             this.gameIsLost = false;
 
+            this.guessedIncorrectLetters = new Map<string, string>();
+
             this.secretWord = this.wordList.getRandomWord();
+
+            this.showToast("Game Reset", 3000, ToastType.SUCCESS);
         },
 
         showToast(message : string, timeout : number, type : ToastType = ToastType.DEFAULT) {
@@ -138,6 +159,20 @@ export const useGameStore = defineStore('game', {
                 toastClassName: 'wordle-dupe-toast',
                 bodyClassName: 'wordle-dupe-toast-body'
             });
+        },
+
+        addGuessedLetter(letter : string, guessState : string) {
+            this.guessedIncorrectLetters.set(letter, guessState);
+        },
+
+        getKeyboardBackground(letter : string) : string {
+            let value = this.guessedIncorrectLetters.get(letter)
+
+            if(value != undefined) {
+                return value;
+            }
+            
+            return "";
         }
     }
 })

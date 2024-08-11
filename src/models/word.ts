@@ -1,4 +1,5 @@
 import Letter from './letter.ts'
+import { useGameStore } from '../store/gamestore.ts';
 
 export default class Word {
     constructor(size : number) {
@@ -41,6 +42,8 @@ export default class Word {
     }
 
     submitGuess(secretWord : string) {
+        let gameStore = useGameStore();
+
         let secretWordArray = secretWord.split('').filter(char => char.trim() !== '').slice(0, -1);
 
         let success = true;
@@ -48,14 +51,17 @@ export default class Word {
         for(let i = 0; i < this.letters.length; i++) {
             if(secretWordArray[i] === this.letters[i].letter) {
                 this.letters[i].setCorrect();
+                gameStore.addGuessedLetter(this.letters[i].letter, "var(--success)");
             }
             else if(secretWordArray.includes(this.letters[i].letter)) {
                 //the letter is right, but in the wrong location
                 this.letters[i].setCorrectWrongLocation();
+                gameStore.addGuessedLetter(this.letters[i].letter, "var(--warning)");
                 success = false;
             }
             else {
                 this.letters[i].setIncorrect();
+                gameStore.addGuessedLetter(this.letters[i].letter, "var(--wrong-letter)");
                 success = false;
             }
         }

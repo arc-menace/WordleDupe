@@ -7,7 +7,7 @@ export default class Letter {
     }
 
     setIncorrect() {
-        this.color = "var(--error)";
+        this.color = "var(--wrong-letter)";
     }
 
     setCorrectWrongLocation() {
